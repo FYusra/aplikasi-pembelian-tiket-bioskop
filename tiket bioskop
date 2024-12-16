@@ -3,91 +3,174 @@
 #include <vector>
 using namespace std;
 
-struct TiketBioskop{
-	string film;
-	float harga;
-	int jumlah;
+struct TiketBioskop {
+    string film;
+    float harga;
+    int jumlah;
 };
 
-void tampilkanMenu(){
-	cout << "\nMenu Film:\n";
-	cout << "1. Film A - Rp 50000\n";
-	cout << "2. Film B - Rp 55000\n";
-	cout << "3. Film C - Rp 60000\n";
-	cout << "4. Film D - Rp 65000\n";
+struct Makanan {
+    string nama;
+    float harga;
+    int jumlah;
+};
+
+enum JenisKursi { REGULER, VIP };
+
+void tampilkanMenuFilm() {
+    cout << "\nMenu Film:\n";
+    cout << "1. Film A - Rp 50000\n";
+    cout << "2. Film B - Rp 55000\n";
+    cout << "3. Film C - Rp 60000\n";
+    cout << "4. Film D - Rp 65000\n";
 }
 
-float hitungDiskon(int totalJumlah, float totalHarga){
-	if (totalJumlah>=5){
-		return totalHarga * 0.1; // Diskon 10% jika beli 5 tiket atau lebih
-	}
-	return 0;
+void tampilkanMenuMakanan() {
+    cout << "\nMenu Makanan: \n";
+    cout << "1. Popcorn - Rp 20000\n";
+    cout << "2. Minuman - Rp 15000\n";
+    cout << "3. Snack - Rp 25000\n";
+}
+
+float hitungDiskon(int totalJumlah, float totalHarga) {
+    if (totalJumlah <= 5) {
+        return totalHarga * 0.1; // Diskon 10% jika beli 5 tiket atau lebih
+    }
+    return 0;
 }
 
 int main() {
-	vector<TiketBioskop>pesanan;
-	int pilihan, jumlah, totalJumlah = 0;
-	float totalHarga = 0;
-	char lagi;
-	
-	cout << "Selamat Datang di Aplikasi Pembelian Tiket Bioskop!\n";
-	
-	do{
-		tampilkanMenu();
-		cout << "Pilih film (1-4): ";
-		cin >> pilihan;
-		
-		TiketBioskop tiket;
-		switch (pilihan){
-			case 1:
-				tiket={"Film A", 50000, 0};
-				break;
-			case 2:
-				tiket={"Film B", 55000, 0};
-				break;
-			case 3:
-				tiket={"Film C", 60000, 0};
-				break;
-			case 4:
-				tiket={"Film D", 65000, 0};
-				break;
-			default:
-				cout << "Pilihan tidak valid.\n";
-				continue;
-		}
-		
-		cout << "Masukkan jumlah tiket yang ingin dibeli:";
-		cin >> jumlah;
-		tiket.jumlah = jumlah;
-		
-		float subtotal = tiket.harga * jumlah;
-		totalHarga += subtotal;
-		totalJumlah += jumlah;
-		pesanan.push_back(tiket);
-		
-		cout << "Subtotal untuk" << tiket.film << ":Rp" << subtotal << endl;
-		
-		cout << "Ingin membeli tiket film lain? (y/n): ";
-		cin >> lagi;
-		
-	}while (lagi == 'y' || lagi == 'Y');
-	
-	float diskon = hitungDiskon(totalJumlah, totalHarga);
-	float totalSetelahDiskon = totalHarga - diskon;
-	
-	cout << "\n--- Daftar Tiket yang Dibeli ---\n";
-	cout << left << setw(15) << "Film" << setw(10) << "Harga" << setw(10) << "Jumlah" << setw(15) << "Subtotal" << endl;
-	for (const TiketBioskop&t : pesanan){
-		cout << left << setw(15) << t.film
-			<< "Rp " << setw(8) << t.harga
-			<< setw(10) << t.jumlah
-			<< "Rp " << setw(10) << t.harga * t.jumlah << endl;
-	}
-	
-	cout << "\nTotal Harga:Rp" << totalHarga << endl;
-	cout << "Diskon: Rp " << diskon << endl;
-	cout << "Total Setelah Diskon:Rp" << totalSetelahDiskon << endl;
-	cout << "Terima kasih telat membeli tiket bioskop!\n";
-	
-	return 0;
-	}
+    vector<TiketBioskop> pesananTiket;
+    vector<Makanan> pesananMakanan;
+    int pilihanFilm, pilihanMakanan, jumlah, totalJumlah = 0;
+    float totalHarga = 0;
+    char lagi;
+    JenisKursi Kursi;
+
+    cout << "Selamat Datang di Aplikasi Pembelian Tiket Bioskop!\n";
+
+    // Memilih film
+    do {
+        tampilkanMenuFilm();
+        cout << "Pilih film (1-4): ";
+        cin >> pilihanFilm;
+
+        TiketBioskop tiket;
+        switch (pilihanFilm) {
+            case 1:
+                tiket = { "Film A", 50000, 0 };
+                break;
+            case 2:
+                tiket = { "Film B", 55000, 0 };
+                break;
+            case 3:
+                tiket = { "Film C", 60000, 0 };
+                break;
+            case 4:
+                tiket = { "Film D", 65000, 0 };
+                break;
+            default:
+                cout << "Pilihan tidak valid.\n";
+                continue;
+        }
+
+        cout << "Masukkan jumlah tiket yang ingin dibeli: ";
+        cin >> jumlah;
+        tiket.jumlah = jumlah;
+
+        float subtotal = tiket.harga * jumlah;
+        totalHarga += subtotal;
+        totalJumlah += jumlah;
+        pesananTiket.push_back(tiket);
+
+        cout << "Subtotal untuk " << tiket.film << ": Rp " << subtotal << endl;
+
+        cout << "Ingin membeli tiket film lain? (y/n): ";
+        cin >> lagi;
+
+    } while (lagi == 'y' || lagi == 'Y');
+
+    // Memilih makanan
+    do {
+        tampilkanMenuMakanan();
+        cout << "Pilih makanan (1-3): ";
+        cin >> pilihanMakanan;
+
+        Makanan makanan;
+        switch (pilihanMakanan) {
+            case 1:
+                makanan = { "Popcorn", 20000, 0 };
+                break;
+            case 2:
+                makanan = { "Minuman", 15000, 0 };
+                break;
+            case 3:
+                makanan = { "SNack", 25000, 0 };
+                break;
+            default:
+                cout << "Pilihan tidak valid.\n";
+                continue;
+        }
+
+        cout << "Masukkan jumlah " << makanan.nama << " yang ingin dibeli: ";
+        cin >> jumlah;
+        makanan.jumlah = jumlah;
+
+        float subtotalMakanan = makanan.harga * jumlah;
+        totalHarga += subtotalMakanan;
+        pesananMakanan.push_back(makanan);
+
+        cout << "Subtotal untuk " << makanan.nama << ": Rp " << subtotalMakanan << endl;
+
+        cout << "Ingin membeli makanan lain? (y/n): ";
+        cin >> lagi;
+
+    } while (lagi == 'y' || lagi == 'Y');
+
+    // Memilih jenis kursi
+    cout << "\nPilih jenis kursi:\n";
+    cout << "1. Reguler\n";
+    cout << "2. VIP\n";
+    int pilihanKursi;
+    cout << "Masukkan pilihan (1-2): ";
+    cin >> pilihanKursi;
+    if (pilihanKursi == 1) {
+        Kursi = REGULER;
+    } else if (pilihanKursi == 2) {
+        Kursi = VIP;
+        totalHarga += 20000; // Tambahan biaya untuk kursi VIP
+    } else {
+        cout << "Pilihan tidak valid.\n";
+        return 1; // Keluar dari program jika pilihan tidak valid
+    }
+
+    // Menghitung diskon
+    float diskon = hitungDiskon(totalJumlah, totalHarga);
+    float totalSetelahDiskon = totalHarga - diskon;
+
+    // Menampilkan ringkasan pesanan
+    cout << "\n--- Daftar Tiket yang Dibeli ---\n";
+    cout << left << setw(15) << "Film" << setw(10) << "Harga" << setw(10) << "Jumlah" << setw(15) << "Subtotal" << endl;
+    for (const TiketBioskop& t : pesananTiket) {
+        cout << left << setw(15) << t.film
+             << "Rp " << setw(8) << t.harga
+             << setw(10) << t.jumlah
+             << "Rp " << setw(10) << t.harga * t.jumlah << endl;
+    }
+
+    cout << "\n--- Daftar Makanan yang Dibeli ---\n";
+    cout << left << setw(15) << "Makanan" << setw(10) << "Harga" << setw(10) << "Jumlah" << setw(15) << "Subtotal" << endl;
+    for (const Makanan& m : pesananMakanan) {
+        cout << left << setw(15) << m.nama
+             << "Rp " << setw(8) << m.harga
+             << setw(10) << m.jumlah
+             << "Rp " << setw(10) << m.harga * m.jumlah << endl;
+    }
+
+    cout << "\nTotal Harga: Rp " << totalHarga << endl;
+    cout << "Diskon: Rp " << diskon << endl;
+    cout << "Total Setelah Diskon: Rp " << totalSetelahDiskon << endl;
+    cout << "Terima Kasih telah membeli tiket bioskop!\n";
+
+    return 0;
+}
