@@ -18,22 +18,23 @@ struct Makanan {
 enum JenisKursi { REGULER, VIP };
 
 void tampilkanMenuFilm() {
+    cout << "\n-------------------- Daftar Film Bioskop --------------------" << endl;
     cout << "\nMenu Film:\n";
-    cout << "1. Film A - Rp 50000\n";
-    cout << "2. Film B - Rp 55000\n";
-    cout << "3. Film C - Rp 60000\n";
-    cout << "4. Film D - Rp 65000\n";
+    cout << "1. Film A - Rp 50,000\n";
+    cout << "2. Film B - Rp 55,000\n";
+    cout << "3. Film C - Rp 60,000\n";
+    cout << "4. Film D - Rp 65,000\n";
 }
 
 void tampilkanMenuMakanan() {
     cout << "\nMenu Makanan: \n";
-    cout << "1. Popcorn - Rp 20000\n";
-    cout << "2. Minuman - Rp 15000\n";
-    cout << "3. Snack - Rp 25000\n";
+    cout << "1. Popcorn - Rp 20,000\n";
+    cout << "2. Minuman - Rp 15,000\n";
+    cout << "3. Snack - Rp 25,000\n";
 }
 
 float hitungDiskon(int totalJumlah, float totalHarga) {
-    if (totalJumlah <= 5) {
+    if (totalJumlah >= 5) {
         return totalHarga * 0.1; // Diskon 10% jika beli 5 tiket atau lebih
     }
     return 0;
@@ -47,12 +48,14 @@ int main() {
     char lagi;
     JenisKursi Kursi;
 
-    cout << "Selamat Datang di Aplikasi Pembelian Tiket Bioskop!\n";
+    cout << "=============================================================\n";
+    cout << "=     Selamat Datang di Aplikasi Pembelian Tiket Bioskop!   =\n";
+    cout << "=============================================================\n";
 
     // Memilih film
     do {
         tampilkanMenuFilm();
-        cout << "Pilih film (1-4): ";
+        cout << "     Pilih film (1-4): ";
         cin >> pilihanFilm;
 
         TiketBioskop tiket;
@@ -105,7 +108,7 @@ int main() {
                 makanan = { "Minuman", 15000, 0 };
                 break;
             case 3:
-                makanan = { "SNack", 25000, 0 };
+                makanan = { "Snack", 25000, 0 };
                 break;
             default:
                 cout << "Pilihan tidak valid.\n";
@@ -136,7 +139,7 @@ int main() {
     cin >> pilihanKursi;
     if (pilihanKursi == 1) {
         Kursi = REGULER;
-    } else if (pilihanKursi == 2) {
+    } else if (pilihanKursi == 2) {  
         Kursi = VIP;
         totalHarga += 20000; // Tambahan biaya untuk kursi VIP
     } else {
@@ -149,28 +152,34 @@ int main() {
     float totalSetelahDiskon = totalHarga - diskon;
 
     // Menampilkan ringkasan pesanan
-    cout << "\n--- Daftar Tiket yang Dibeli ---\n";
-    cout << left << setw(15) << "Film" << setw(10) << "Harga" << setw(10) << "Jumlah" << setw(15) << "Subtotal" << endl;
+    cout << "\n=================== Daftar Tiket yang Dibeli ===================\n";
+    cout << left << setw(20) << "Film" << setw(15) << "Harga" << setw(10) << "Jumlah" << setw(15) << "Subtotal" << endl;
+    cout << "------------------------------------------------------------------" << endl;
     for (const TiketBioskop& t : pesananTiket) {
-        cout << left << setw(15) << t.film
-             << "Rp " << setw(8) << t.harga
+        cout << left << setw(20) << t.film
+             << "Rp " << setw(14) << t.harga
              << setw(10) << t.jumlah
-             << "Rp " << setw(10) << t.harga * t.jumlah << endl;
+             << "Rp " << setw(14) << t.harga * t.jumlah << endl;
     }
 
-    cout << "\n--- Daftar Makanan yang Dibeli ---\n";
-    cout << left << setw(15) << "Makanan" << setw(10) << "Harga" << setw(10) << "Jumlah" << setw(15) << "Subtotal" << endl;
+    cout << "\n=================== Daftar Makanan yang Dibeli ===================\n";
+    cout << left << setw(20) << "Makanan" << setw(15) << "Harga" << setw(10) << "Jumlah" << setw(15) << "Subtotal" << endl;
+    cout << "------------------------------------------------------------------" << endl;
     for (const Makanan& m : pesananMakanan) {
-        cout << left << setw(15) << m.nama
-             << "Rp " << setw(8) << m.harga
+        cout << left << setw(20) << m.nama
+             << "Rp " << setw(14) << m.harga
              << setw(10) << m.jumlah
-             << "Rp " << setw(10) << m.harga * m.jumlah << endl;
+             << "Rp " << setw(14) << m.harga * m.jumlah << endl;
     }
 
-    cout << "\nTotal Harga: Rp " << totalHarga << endl;
-    cout << "Diskon: Rp " << diskon << endl;
-    cout << "Total Setelah Diskon: Rp " << totalSetelahDiskon << endl;
-    cout << "Terima Kasih telah membeli tiket bioskop!\n";
+    cout << "\nTotal Harga:           Rp " << totalHarga << endl;
+    cout << "Diskon:                Rp " << diskon << endl;
+    cout << "Total Setelah Diskon:  Rp " << totalSetelahDiskon << endl;
+    cout << endl;
+    cout << "=============================================================\n";
+    cout << "          Terima Kasih telah membeli tiket bioskop!\n";
+    cout << "=============================================================\n";
+    cout << endl;
 
     return 0;
 }
